@@ -1,6 +1,9 @@
 import axios from 'axios';
+import ProfilePage from './profile';
 import React from 'react';
 import reactDom from "react-dom";
+import { Link } from "react-router-dom";
+import ListBoards from './ListBoards';
 // import LoginComponent from './login';
 
 class Auth{
@@ -14,6 +17,9 @@ class Auth{
             password: '',
             codename: null,
             profile: null,
+            boards:null,
+            subjects:null,
+            cid: null,
         }
 
         this.config = {
@@ -61,25 +67,37 @@ class Auth{
                 this.state.token = res.data[0]['Token'];
                 this.state.isAuthenticated = true;
                 this.state.codename = res.data[0]['CodeName'];
-                //this.getProfile(res.data[0].Token,res.data[0].CodeName);
+                this.getProfile(res.data[0].Token,res.data[0].CodeName);
                 console.log('success');
                 let obj = {token: res.data[0]['Token'], codename: res.data[0]['CodeName']};
-                const elemx = (
-                    <div className='profile'>
-                      <h1>Welcome!</h1>
-                      <div className='body1'>
-                      <br></br>
-                      <h2>Your email: {email}</h2>
-                      <br></br>
-                      <h2>Your username: {obj.codename}</h2>
-                      </div>
-                    </div>
-                  );
-                  reactDom.render(elemx, document.getElementById('root'));
+                this.getBoards(this.state.token,this.state.codename);
+                
+                console.log(this.state);
+                document.cookie = "auth="+JSON.stringify({token: res.data[0]['Token'], codename: res.data[0]['CodeName']});
+                ProfilePage(email,this.state);
                 return {token: res.data[0]['Token'], codename: res.data[0]['CodeName']};
             
             }
-        ).catch(err => {console.log(err);return(false);})})
+        ).catch(err => {console.log(err);})})
+    }
+
+    getBoards = (token, codename) => {
+        
+
+        axios.post('https://curriculum-django-staging.schooglink.com/version1.0/curriculum/listboards/', {
+            token: token,
+            codeName: codename,
+            ipAddress: "127.0.0.1", 
+        }, {headers:{
+            "Content-Type": "application/json"
+        }})
+        .then( res => {
+            if(res.status === 202){
+                this.state.boards = res.data.RV;
+                return res.data.RV;
+            }
+        }
+        )
     }
 }
 

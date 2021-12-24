@@ -1,10 +1,6 @@
 import axios from 'axios';
 import ProfilePage from './profile';
-import React from 'react';
-import reactDom from "react-dom";
-import { Link } from "react-router-dom";
-import ListBoards from './ListBoards';
-// import LoginComponent from './login';
+
 
 class Auth{
     constructor(){
@@ -28,9 +24,6 @@ class Auth{
     }
 
     getProfile = (token,codename) => {
-        /**
-         * Get the profile of the user using the token
-         */
         console.log(token);
         console.log(codename);
         axios.post('https://identity-qa.schooglink.com/version1.0/auth/getprofile/', {
@@ -51,9 +44,6 @@ class Auth{
     }
     
     login = (email,password)=>{
-        /**
-         * Login the user using username and password
-         */
 
          return new Promise(() => {
         axios.post('https://identity-qa.schooglink.com/version1.0/auth/loginuser/', {

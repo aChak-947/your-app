@@ -89,6 +89,31 @@ class Auth{
         }
         )
     }
+
+
+    // fetchClasses = (token, codename, boardId) => {
+    //     const headers = {
+    //       "Content-Type": "application/json",
+    //     };
+      
+    //     const data = {
+    //       Token: token,
+    //       CodeName: codename,
+    //       ipAddress: "127.0.0.1",
+    //       boardId,
+    //     };
+      
+    //     try {
+    //       const response = await axios.post(`${url}listclasses/`, data, {
+    //         headers: headers,
+    //       });
+    //       const classesData = await response.data.RV;
+    //       //   console.log(boardsData);
+    //       return classesData;
+    //     } catch (error) {
+    //       console.log(error);
+    //     }
+    //   };
 }
 
 export default Auth;
